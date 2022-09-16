@@ -1,25 +1,137 @@
-import logo from './logo.svg';
+
+// import React,{ Component } from 'react';
+
+// class App extends Component{
+// constructor()
+//   {
+//     super();
+//     this.state = {
+//       email:null,
+//       password:null,
+//       login : false,
+//       store : null
+
+
+//     }
+//   }
+//   // componentDidMount(){
+//   // this.storeCollector()
+//   // }
+//   // storeCollector(){
+//   //   let store = JSON.parse(localStorage.getItem('login'));
+//   //   if(store && store.login){
+//   //     this.setState({login:true, store:store})
+//   //   }
+//   // }
+  
+//  login ()
+//   {
+    
+//     fetch('http://127.0.0.1:8000/api/user/login/user/',{
+//     method : "POST",
+//     credentials: "include",
+//     // headers:{
+//       headers: {
+//         "Accept": "application/json",
+//         "Content-Type": "application/json",
+//       },
+//       mode : 'no-cors',
+//      body:JSON.stringify(this.state)  
+//     }).then((response)=>{
+//       response.json().then((result)=>{
+//         console.warn("result",result);
+//         localStorage.setItem('login',JSON.stringify({
+//           login:true,
+//           token:result.token
+//         }))
+//         // this.storeCollector()
+//       })
+//     })
+
+//     }
+
+//   // post(){
+//   //   let token = "Bearer"+this.state.store.token
+//   //   fetch('http://127.0.0.1:8000/api/user/profile/',{
+//   //   method : "POST",
+//   //   headers:{
+//   //     'Authorization' : token
+//   //   },
+//   //   body:JSON.stringify(this.state)  
+//   //   }).then((response)=>{
+//   //     response.json().then((result)=>{
+//   //       this.setState({
+//   //         response:result.message
+//   //       })
+//   //       console.warn("result",result);
+       
+//   //     })
+//   //   })
+
+
+//   // }
+
+  
+//   render(){
+//     return (
+//       <div>
+//       <h1> JWT Authentication </h1>
+//       <h2>hello@gmail.com</h2>
+//       <h3>123456@</h3>
+//       <div>
+//           <input type ="text" onChange = {(event)=>{this.setState({email :event.target.value})}}/> <br></br>
+//           <input type ="password" onChange = {(event)=>{this.setState({password :event.target.value})}}/> <br></br>
+//           <button onClick = {()=>{this.login()}}> Login</button>
+//           </div> 
+//           </div>
+    
+  
+
+//     );
+//   }
+// }
+
+//   export default App;
+import { useState } from "react";
 import './App.css';
+// import './Card.js';
+import axios from "axios";
 
 function App() {
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  console.log({ email, password })
+  const handleEmail = (e) => {
+    setEmail(e.target.value)
+  }
+
+  const handlePassword = (e) => {
+    setPassword(e.target.value)
+  }
+
+  const handleApi = () => {
+    console.log({ email, password })
+    axios.post('http://127.0.0.1:8000/api/user/login/user/', {
+      email: email,
+      password: password
+    }).then(result => {
+      console.log(result.data)
+      alert('success')
+    })
+      .catch(error => {
+        alert('service error')
+        console.log(error)
+      })
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      Email : <input value={email} onChange={handleEmail} type="text" /> <br />
+      Password : <input value={password} onChange={handlePassword} type="text" /> <br />
+      <button onClick={handleApi} >Login</button>
     </div>
   );
 }
 
 export default App;
+
